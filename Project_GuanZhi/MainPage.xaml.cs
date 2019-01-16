@@ -1,4 +1,5 @@
-﻿using Project_GuanZhi.Models;
+﻿using Project_GuanZhi.Controls;
+using Project_GuanZhi.Models;
 using Project_GuanZhi.Tools;
 using System;
 using System.Collections.Generic;
@@ -6,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -27,6 +29,7 @@ namespace Project_GuanZhi
     {
         public ObservableCollection<SideMenuModel> SideMenuCollection = new ObservableCollection<SideMenuModel>();
         public ObservableCollection<AppArticleModel> RecentArticleCollection = new ObservableCollection<AppArticleModel>();
+        public List<AppArticleModel> FavouriteArticleCollection = new List<AppArticleModel>();
         public static MainPage Current;
         public MainPage()
         {
@@ -43,6 +46,7 @@ namespace Project_GuanZhi
                 SideMenuCollection.Add(menuItem);
             }
             var sourceLocalRecentArticleList = await IOTools.GetLocalRecentArticleList();
+            FavouriteArticleCollection = await IOTools.GetLocalFavouriteArticleList();
             foreach (var article in sourceLocalRecentArticleList)
             {
                 RecentArticleCollection.Add(article);
@@ -144,6 +148,53 @@ namespace Project_GuanZhi
             }
             RecentArticleCollection.Insert(0, article);
             await IOTools.RewriteLocalRecentArticleList(RecentArticleCollection.ToList());
+        }
+
+        public async Task<bool> AddFavouriteArticle(AppArticleModel article)
+        {
+            if(FavouriteArticleCollection.Any(p=>p.Date==article.Date || p.Title == article.Title))
+            {
+                new PopToast("您已经收藏过该文章").ShowPopup();
+            }
+            else
+            {
+                FavouriteArticleCollection.Add(article);
+                bool result = await IOTools.RewriteLocalFavouriteArticleList(FavouriteArticleCollection);
+                if (result)
+                {
+                    new PopToast("收藏成功！").ShowPopup();
+                    return true;
+                }
+                else
+                {
+                    new PopToast("收藏失败了...").ShowPopup();
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> RemoveFavouriteArticle(string date)
+        {
+            var sourceArticle = FavouriteArticleCollection.Where(article => article.Date == date).FirstOrDefault();
+            if (sourceArticle != null)
+            {
+                FavouriteArticleCollection.Remove(sourceArticle);
+                bool result = await IOTools.RewriteLocalFavouriteArticleList(FavouriteArticleCollection);
+                if (result)
+                {
+                    new PopToast("已取消收藏").ShowPopup();
+                    return true;
+                }
+                else
+                {
+                    new PopToast("取消收藏时出现异常").ShowPopup();
+                }
+            }
+            else
+            {
+                new PopToast("收藏列表中无此项").ShowPopup();
+            }
+            return false;
         }
 
         private void RecentListView_ItemClick(object sender, ItemClickEventArgs e)

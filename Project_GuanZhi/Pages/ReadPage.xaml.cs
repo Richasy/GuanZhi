@@ -37,8 +37,10 @@ namespace Project_GuanZhi.Pages
             get { return _readFontFamily; }
             set { _readFontFamily = value; OnPropertyChanged(); }
         }
+        private bool isFavourite = false;
         private bool isToolBarHide = false;
         private ObservableCollection<SystemFont> SystemFontCollection = new ObservableCollection<SystemFont>();
+        private AppArticleModel ThisArticleData = null;
         public ReadPage()
         {
             this.InitializeComponent();
@@ -49,6 +51,7 @@ namespace Project_GuanZhi.Pages
             {
                 SystemFontCollection.Add(font);
             }
+            
             string saveFontFamily = AppTools.GetLocalSetting(AppSettings.ReadFontFamily, "");
             if (string.IsNullOrEmpty(saveFontFamily))
             {
@@ -107,6 +110,9 @@ namespace Project_GuanZhi.Pages
                 paragraph.Margin = new Thickness(0, 0, 0, 25);
                 ReadTextBlock.Blocks.Add(paragraph);
             }
+            ThisArticleData = new AppArticleModel(sourceData);
+            isFavourite = MainPage.Current.FavouriteArticleCollection.Any(article => article.Date == sourceData.Date.Curr || article.Title == sourceData.Title);
+            LikeButton.Content = isFavourite ? "" : "";
             TitleTextBlock.Text = sourceData.Title;
             AuthorTextBlock.Text = sourceData.Author;
             WordCountRun.Text = sourceData.Wc.ToString();
@@ -175,6 +181,28 @@ namespace Project_GuanZhi.Pages
             var selectFont = (SystemFont)e.ClickedItem;
             ReadFontFamily = selectFont.FontFamily;
             AppTools.WriteLocalSetting(AppSettings.ReadFontFamily, selectFont.Name);
+        }
+
+        private async void LikeButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (isFavourite)
+            {
+                bool result = await MainPage.Current.RemoveFavouriteArticle(ThisArticleData.Date);
+                if (result)
+                {
+                    isFavourite = false;
+                    LikeButton.Content = "";
+                }
+            }
+            else
+            {
+                bool result = await MainPage.Current.AddFavouriteArticle(ThisArticleData);
+                if (result)
+                {
+                    isFavourite = true;
+                    LikeButton.Content = "";
+                }
+            }
         }
     }
 }

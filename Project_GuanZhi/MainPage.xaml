@@ -55,7 +55,7 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource TransparentButton}" Name="TopMenuButton" Click="TopMenuButton_Click" FlyoutBase.AttachedFlyout="{StaticResource TopMenuFlyout}" Content="&#xE98F;" Width="60" Height="60" FontFamily="{StaticResource IconFont}" FontSize="20" VerticalAlignment="Center"/>
+            <Button Style="{StaticResource TransparentButton}" Name="TopMenuButton" Click="TopMenuButton_Click" FlyoutBase.AttachedFlyout="{StaticResource TopMenuFlyout}" Content="&#xE997;" Width="60" Height="60" FontFamily="{StaticResource IconFont}" FontSize="20" VerticalAlignment="Center"/>
             <TextBlock Name="TopTitleTextBlock" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0" Foreground="{ThemeResource ImportantTextColor}" FontFamily="{StaticResource NormalFont}" FontSize="15"/>
         </Grid>
         <Grid BorderBrush="{ThemeResource LineColor}" BorderThickness="0,0,1,0" Name="SideGrid" Grid.RowSpan="2">

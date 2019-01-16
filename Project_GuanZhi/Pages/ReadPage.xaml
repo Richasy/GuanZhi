@@ -104,9 +104,9 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button FontFamily="{StaticResource IconFont}" Name="FontButton" Click="FontButton_Click" FlyoutBase.AttachedFlyout="{StaticResource FontFlyout}" Content="&#xE9EB;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
-            <Button FontFamily="{StaticResource IconFont}" Name="ColorButton" Grid.Column="1" Content="&#xE9D1;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
-            <Button FontFamily="{StaticResource IconFont}" Name="LikeButton" Grid.Column="2" Content="&#xE9D5;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+            <Button FontFamily="{StaticResource IconFont}" Name="FontButton" Click="FontButton_Click" FlyoutBase.AttachedFlyout="{StaticResource FontFlyout}" Content="&#xE9F3;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+            <Button FontFamily="{StaticResource IconFont}" Name="ColorButton" Grid.Column="1" Content="&#xE9D9;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+            <Button FontFamily="{StaticResource IconFont}" Name="LikeButton" Click="LikeButton_Click" Grid.Column="2" Content="&#xE906;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
         </Grid>
         <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40" Foreground="{ThemeResource SubTextColor}" IsActive="False" Name="WaittingRing"/>
     </Grid>
