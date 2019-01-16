@@ -1,0 +1,8 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project_GuanZhi.Styles">
+    <FontFamily x:Key="IconFont">/Fonts/guanzhi.ttf#guanzhi</FontFamily>
+    <FontFamily x:Key="PrimaryFont">/Fonts/ZCOOLQingKeHuangYou-Regular.ttf#ZCOOL QingKe HuangYou</FontFamily>
+    <FontFamily x:Key="NormalFont">/Fonts/NotoSansSC-Regular.otf#Noto Sans SC Regular</FontFamily>
+</ResourceDictionary>

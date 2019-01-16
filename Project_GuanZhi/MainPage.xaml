@@ -5,10 +5,91 @@
     xmlns:local="using:Project_GuanZhi"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:model="using:Project_GuanZhi.Models"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    SizeChanged="Page_SizeChanged"
+    Background="{ThemeResource MainBackground}">
+    <Page.Resources>
+        <DataTemplate x:DataType="model:SideMenuModel" x:Key="SideMenuItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Width="35" Height="3" Fill="{ThemeResource PrimaryColor}" VerticalAlignment="Center" Visibility="{x:Bind SignVisibility,Mode=OneWay}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" FontFamily="{StaticResource NormalFont}" Text="{x:Bind Title,Mode=OneWay}" HorizontalAlignment="Left" Margin="15,0,0,0" Foreground="{x:Bind TitleForeground,Mode=OneWay}" FontWeight="{x:Bind TitleFontWeight,Mode=OneWay}"/>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:DataType="model:AppArticleModel" x:Key="RecentItemTemplate">
+            <StackPanel Padding="50,10,0,10">
+                <TextBlock Text="{x:Bind Title}" FontWeight="Bold" Foreground="{ThemeResource SubTextColor}" MaxWidth="150" TextTrimming="WordEllipsis" FontFamily="{StaticResource NormalFont}" FontSize="14"/>
+                <TextBlock Text="{x:Bind Author}" Foreground="{ThemeResource TipTextColor}" FontFamily="{StaticResource NormalFont}" FontSize="9"/>
+            </StackPanel>
+        </DataTemplate>
+        <Flyout x:Key="TopMenuFlyout" x:Name="TopMenuFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyleWithAcrylic}">
+            <Grid Width="200">
+                <ListView
+                      ItemTemplate="{StaticResource SideMenuItemTemplate}"
+                      ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
+                      ItemsSource="{x:Bind SideMenuCollection}"
+                      SelectionMode="None"
+                       Width="200"
+                      IsItemClickEnabled="True"
+                      ItemClick="SideMenuListView_ItemClick"
+                      />
+            </Grid>
+        </Flyout>
+    </Page.Resources>
 
-    <Grid>
-
+    <Grid Name="MainGridContainer">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" x:Name="SideColumn"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.ColumnSpan="2" Name="TopGrid" BorderBrush="{ThemeResource LineColor}" BorderThickness="0,0,0,1" Height="60">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource TransparentButton}" Name="TopMenuButton" Click="TopMenuButton_Click" FlyoutBase.AttachedFlyout="{StaticResource TopMenuFlyout}" Content="&#xE98F;" Width="60" Height="60" FontFamily="{StaticResource IconFont}" FontSize="20" VerticalAlignment="Center"/>
+            <TextBlock Name="TopTitleTextBlock" Grid.Column="1" VerticalAlignment="Center" Margin="15,0,0,0" Foreground="{ThemeResource ImportantTextColor}" FontFamily="{StaticResource NormalFont}" FontSize="15"/>
+        </Grid>
+        <Grid BorderBrush="{ThemeResource LineColor}" BorderThickness="0,0,1,0" Name="SideGrid" Grid.RowSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <RelativePanel Margin="45,40,0,30" HorizontalAlignment="Left">
+                <Ellipse Width="50" Height="50" Fill="#4E5B6C" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+                <TextBlock Text="观 止" VerticalAlignment="Center" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+            </RelativePanel>
+            <ListView Name="SideMenuListView"
+                      Grid.Row="1"
+                      ItemTemplate="{StaticResource SideMenuItemTemplate}"
+                      ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
+                      ItemsSource="{x:Bind SideMenuCollection}"
+                      SelectionMode="None"
+                       Width="250"
+                      IsItemClickEnabled="True"
+                      ItemClick="SideMenuListView_ItemClick"
+                      />
+            <StackPanel Grid.Row="2">
+                <TextBlock Text="最近浏览" Margin="50,40,0,20" FontFamily="{StaticResource NormalFont}" FontWeight="Bold" Foreground="{ThemeResource ImportantTextColor}" FontSize="14"/>
+                <ListView Name="RecentListView"
+                          ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
+                          SelectionMode="Single"
+                          Width="250"
+                          ItemTemplate="{StaticResource RecentItemTemplate}"
+                          ItemsSource="{x:Bind RecentArticleCollection}"
+                          HorizontalAlignment="Left"
+                          />
+            </StackPanel>
+        </Grid>
+        <Frame Name="MainFrame" HorizontalAlignment="Stretch" x:FieldModifier="Public" VerticalAlignment="Stretch" Grid.Column="1"/>
     </Grid>
 </Page>

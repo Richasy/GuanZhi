@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Project_GuanZhi.Tools;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -30,6 +31,15 @@ namespace Project_GuanZhi
         {
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            bool isLight = AppTools.GetLocalSetting(Models.AppSettings.Theme, "Light") == "Light";
+            RequestedTheme = isLight ? ApplicationTheme.Light : ApplicationTheme.Dark;
+            this.UnhandledException += UnhandledExceptionHandle;
+        }
+
+        private void UnhandledExceptionHandle(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
+        {
+            e.Handled = true;
+            string msg = e.Message;
         }
 
         /// <summary>
@@ -66,10 +76,19 @@ namespace Project_GuanZhi
                     // 当导航堆栈尚未还原时，导航到第一页，
                     // 并通过将所需信息作为导航参数传入来配置
                     // 参数
-                    rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    bool isFirstRun = Convert.ToBoolean(AppTools.GetLocalSetting(Models.AppSettings.IsFirstRun, "True"));
+                    if (isFirstRun)
+                    {
+                        rootFrame.Navigate(typeof(Pages.WelcomePage));
+                    }
+                    else
+                    {
+                        rootFrame.Navigate(typeof(MainPage), e.Arguments);
+                    }
                 }
                 // 确保当前窗口处于活动状态
                 Window.Current.Activate();
+                AppTools.SetTitleBarColorInit();
             }
         }
 

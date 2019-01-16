@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="Project_GuanZhi.Pages.StartPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project_GuanZhi.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource MainBackground}">
+
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Name="MainContent">
+            <TextBlock Name="TitleTextBlock" FontSize="40" HorizontalAlignment="Left" FontFamily="{StaticResource PrimaryFont}" Foreground="{ThemeResource ImportantTextColor}" MaxWidth="330" TextWrapping="Wrap"/>
+            <TextBlock Name="AuthorTextBlock" FontSize="12" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource TipTextColor}" Margin="0,20"/>
+            <TextBlock Name="DigestTextBlock" FontSize="14" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource SubTextColor}" LineHeight="25" MaxWidth="330" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis"/>
+            <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
+                <Button HorizontalAlignment="Left" Name="ReadButton" Content="开始阅读" Click="ReadButton_Click" Style="{StaticResource PrimaryButtonStyle}" Width="150" Height="45" FontSize="13"/>
+                <Button HorizontalAlignment="Left" Name="RandomButton" Click="RandomButton_Click" Margin="20,0,0,0" Content="再换一篇" Style="{StaticResource DefaultGhostButton}" Width="150" Height="45" FontSize="13"/>
+            </StackPanel>
+        </StackPanel>
+        <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40" Foreground="{ThemeResource SubTextColor}" IsActive="True" Name="WaittingRing"/>
+    </Grid>
+</Page>

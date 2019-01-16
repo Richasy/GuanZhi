@@ -1,0 +1,21 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project_GuanZhi.Styles">
+    <SolidColorBrush x:Key="MainBackground" Color="#2B2944"/>
+    <SolidColorBrush x:Key="PrimaryColor" Color="#E2E1FA"/>
+    <SolidColorBrush x:Key="PrimaryColorOver" Color="#B9B8E0"/>
+    <SolidColorBrush x:Key="PrimaryInsideColor" Color="#2B2944"/>
+    <SolidColorBrush x:Key="LineColor" Color="#34334E"/>
+
+    <SolidColorBrush x:Key="ImportantTextColor" Color="Black"/>
+    <SolidColorBrush x:Key="SubTextColor" Color="#666666"/>
+    <SolidColorBrush x:Key="TipTextColor" Color="#A4A7B3"/>
+
+    <SolidColorBrush x:Key="ProgressBackground" Color="#1B1A30"/>
+    <SolidColorBrush x:Key="ProgressThumbColor" Color="#504F6C"/>
+    <SolidColorBrush x:Key="ListViewHoverColor" Color="#1B1A30"/>
+    <SolidColorBrush x:Key="ListViewSelectColor" Color="#34334E"/>
+
+    <AcrylicBrush x:Key="FlyoutAcrylicBackground" BackgroundSource="Backdrop"  TintColor="#212037" TintOpacity="0.5" FallbackColor="#212037"/>
+</ResourceDictionary>
