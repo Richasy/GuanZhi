@@ -10,6 +10,7 @@ namespace Project_GuanZhi.Models
     {
         Theme,
         IsFirstRun,
-        UserName
+        UserName,
+        ReadFontFamily
     }
 }

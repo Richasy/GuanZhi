@@ -84,7 +84,9 @@ namespace Project_GuanZhi.Pages
 
         private void ReadButton_Click(object sender, RoutedEventArgs e)
         {
-            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ForwardConnectedAnimation", MainContent);
+            var article = new AppArticleModel(WebArticle);
+            MainPage.Current.AddRecentArticle(article);
+            ConnectedAnimationService.GetForCurrentView().PrepareToAnimate("ForwardConnectedAnimation", ArticleContainer);
             MainPage.Current.MainFrame.Navigate(typeof(ReadPage), WebArticle, new SuppressNavigationTransitionInfo());
         }
     }

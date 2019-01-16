@@ -14,9 +14,12 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Name="MainContent">
-            <TextBlock Name="TitleTextBlock" FontSize="40" HorizontalAlignment="Left" FontFamily="{StaticResource PrimaryFont}" Foreground="{ThemeResource ImportantTextColor}" MaxWidth="330" TextWrapping="Wrap"/>
-            <TextBlock Name="AuthorTextBlock" FontSize="12" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource TipTextColor}" Margin="0,20"/>
-            <TextBlock Name="DigestTextBlock" FontSize="14" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource SubTextColor}" LineHeight="25" MaxWidth="330" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis"/>
+            <StackPanel Name="ArticleContainer" HorizontalAlignment="Left">
+                <TextBlock Name="TitleTextBlock" FontSize="40" HorizontalAlignment="Left" FontFamily="{StaticResource PrimaryFont}" Foreground="{ThemeResource ImportantTextColor}" MaxWidth="330" TextWrapping="Wrap"/>
+                <TextBlock Name="AuthorTextBlock" FontSize="12" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource TipTextColor}" Margin="0,20"/>
+                <TextBlock Name="DigestTextBlock" FontSize="14" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource SubTextColor}" LineHeight="25" MaxWidth="330" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+            
             <StackPanel Orientation="Horizontal" Margin="0,30,0,0">
                 <Button HorizontalAlignment="Left" Name="ReadButton" Content="开始阅读" Click="ReadButton_Click" Style="{StaticResource PrimaryButtonStyle}" Width="150" Height="45" FontSize="13"/>
                 <Button HorizontalAlignment="Left" Name="RandomButton" Click="RandomButton_Click" Margin="20,0,0,0" Content="再换一篇" Style="{StaticResource DefaultGhostButton}" Width="150" Height="45" FontSize="13"/>

@@ -8,10 +8,44 @@
     mc:Ignorable="d"
     xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
       xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
+    xmlns:models="using:Project_GuanZhi.Models"
+    SizeChanged="Page_SizeChanged"
     Background="Transparent">
     <Page.Resources>
+        <Storyboard x:Name="ToolbarHide">
+            <DoubleAnimation Storyboard.TargetName="ToolBarTransform"
+                             Storyboard.TargetProperty="Y"
+                             To="50"
+                             Duration="0:0:.5"
+                             />
+        </Storyboard>
+        <Storyboard x:Name="ToolbarShow">
+            <DoubleAnimation Storyboard.TargetName="ToolBarTransform"
+                             Storyboard.TargetProperty="Y"
+                             To="0"
+                             Duration="0:0:.5"
+                             />
+        </Storyboard>
+        <Flyout x:Key="FontFlyout" FlyoutPresenterStyle="{StaticResource FontFlyoutStyle}">
+            <ListView Style="{StaticResource BasicListViewStyle}"
+                      ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
+                      IsItemClickEnabled="True"
+                      SelectionMode="None"
+                      Name="FontListView"
+                      Width="300"
+                      Height="400"
+                      ItemClick="FontListView_ItemClick"
+                      ItemsSource="{x:Bind SystemFontCollection}"
+                      >
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:SystemFont">
+                        <TextBlock Text="{x:Bind Name}" FontFamily="{x:Bind FontFamily}" FontSize="14" Margin="20,0,0,0"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Flyout>
     </Page.Resources>
-    <Grid Padding="0,30,0,0">
+    <Grid Name="ArticleContainer">
         <ScrollViewer Style="{StaticResource BasicScrollViewer}"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
@@ -39,14 +73,14 @@
                     <RichTextBlock Name="ReadTextBlock"
                        LineHeight="35"
                        HorizontalAlignment="Center"
-                       FontFamily="{StaticResource NormalFont}"
+                       FontFamily="{x:Bind ReadFontFamily,Mode=OneWay}"
                        Foreground="{ThemeResource SubTextColor}"
                                    Grid.Column="0"
                                    Margin="0,30,0,20"
                                    TextAlignment="Justify"
                        FontSize="17"/>
                 </Grid>
-                
+
                 <TextBlock Foreground="{ThemeResource TipTextColor}"
                            FontFamily="{StaticResource NormalFont}"
                            FontSize="11"
@@ -59,8 +93,21 @@
                 </TextBlock>
                 <Button Style="{StaticResource DefaultGhostButton}" Name="NextButton" Click="NextButton_Click" Width="120" Height="40" Content="再来一篇" HorizontalAlignment="Center" Margin="0,20,0,30" FontFamily="{StaticResource NormalFont}"/>
             </StackPanel>
-            
+
         </ScrollViewer>
-        
+        <Grid VerticalAlignment="Bottom" HorizontalAlignment="Center" Height="50" Background="{ThemeResource FlyoutAcrylicBackground}" BorderBrush="{ThemeResource LineColor}" BorderThickness="1,1,1,0" CornerRadius="2">
+            <Grid.RenderTransform>
+                <TranslateTransform x:Name="ToolBarTransform" Y="0"></TranslateTransform>
+            </Grid.RenderTransform>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button FontFamily="{StaticResource IconFont}" Name="FontButton" Click="FontButton_Click" FlyoutBase.AttachedFlyout="{StaticResource FontFlyout}" Content="&#xE9EB;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+            <Button FontFamily="{StaticResource IconFont}" Name="ColorButton" Grid.Column="1" Content="&#xE9D1;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+            <Button FontFamily="{StaticResource IconFont}" Name="LikeButton" Grid.Column="2" Content="&#xE9D5;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+        </Grid>
+        <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40" Foreground="{ThemeResource SubTextColor}" IsActive="False" Name="WaittingRing"/>
     </Grid>
 </Page>

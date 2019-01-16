@@ -22,7 +22,7 @@
         </DataTemplate>
         <DataTemplate x:DataType="model:AppArticleModel" x:Key="RecentItemTemplate">
             <StackPanel Padding="50,10,0,10">
-                <TextBlock Text="{x:Bind Title}" FontWeight="Bold" Foreground="{ThemeResource SubTextColor}" MaxWidth="150" TextTrimming="WordEllipsis" FontFamily="{StaticResource NormalFont}" FontSize="14"/>
+                <TextBlock Text="{x:Bind Title}" Foreground="{ThemeResource SubTextColor}" MaxWidth="150" TextTrimming="WordEllipsis" FontFamily="{StaticResource NormalFont}" FontSize="14"/>
                 <TextBlock Text="{x:Bind Author}" Foreground="{ThemeResource TipTextColor}" FontFamily="{StaticResource NormalFont}" FontSize="9"/>
             </StackPanel>
         </DataTemplate>
@@ -62,7 +62,7 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" x:Name="RecentArticleRow"/>
             </Grid.RowDefinitions>
             <RelativePanel Margin="45,40,0,30" HorizontalAlignment="Left">
                 <Ellipse Width="50" Height="50" Fill="#4E5B6C" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
@@ -79,14 +79,18 @@
                       ItemClick="SideMenuListView_ItemClick"
                       />
             <StackPanel Grid.Row="2">
-                <TextBlock Text="最近浏览" Margin="50,40,0,20" FontFamily="{StaticResource NormalFont}" FontWeight="Bold" Foreground="{ThemeResource ImportantTextColor}" FontSize="14"/>
-                <ListView Name="RecentListView"
+                <TextBlock Text="最近浏览" Margin="50,40,0,10" FontFamily="{StaticResource NormalFont}" FontWeight="Bold" Foreground="{ThemeResource ImportantTextColor}" FontSize="14"/>
+                <ListView Style="{StaticResource BasicListViewStyle}" Name="RecentListView"
                           ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
-                          SelectionMode="Single"
                           Width="250"
                           ItemTemplate="{StaticResource RecentItemTemplate}"
                           ItemsSource="{x:Bind RecentArticleCollection}"
                           HorizontalAlignment="Left"
+                          IsItemClickEnabled="True"
+                          SelectionMode="None"
+                          ItemClick="RecentListView_ItemClick"
+                          ScrollViewer.VerticalScrollMode="Auto"
+                          ScrollViewer.VerticalScrollBarVisibility="Visible"
                           />
             </StackPanel>
         </Grid>

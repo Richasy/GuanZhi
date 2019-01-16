@@ -61,6 +61,7 @@ namespace Project_GuanZhi
             var selectItem = e.ClickedItem as SideMenuModel;
             TopTitleTextBlock.Text = selectItem.Title;
             selectItem.IsSelect = true;
+            RecentListView.SelectedIndex = -1;
             switch (selectItem.Type)
             {
                 case SideMenuType.Today:
@@ -81,6 +82,8 @@ namespace Project_GuanZhi
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double width = e.NewSize.Width;
+            double recentRowHeight = RecentArticleRow.ActualHeight;
+            RecentListView.Height = recentRowHeight - 80;
             if (width > 768)
             {
                 SideGrid.Visibility = Visibility.Visible;
@@ -106,9 +109,10 @@ namespace Project_GuanZhi
 
         public void NextPageHandle()
         {
+            RecentListView.SelectedIndex = -1;
             foreach (var menuItem in SideMenuCollection)
             {
-                if(menuItem.Type==SideMenuType.Random && menuItem.IsSelect)
+                if(menuItem.Type==SideMenuType.Random)
                 {
                     if(!menuItem.IsSelect)
                     {
@@ -117,8 +121,40 @@ namespace Project_GuanZhi
                         break;
                     }  
                 }
-
+                else
+                {
+                    menuItem.IsSelect = false;
+                }
             }
+        }
+
+        public async void AddRecentArticle(AppArticleModel article)
+        {
+            if (RecentArticleCollection.Count > 0)
+            {
+                if (RecentArticleCollection.First().Equals(article))
+                {
+                    return;
+                }
+                RecentArticleCollection.Remove(RecentArticleCollection.Where(p => p.Date == article.Date).FirstOrDefault());
+                if (RecentArticleCollection.Count >= 10)
+                {
+                    RecentArticleCollection.Remove(RecentArticleCollection.Last());
+                }
+            }
+            RecentArticleCollection.Insert(0, article);
+            await IOTools.RewriteLocalRecentArticleList(RecentArticleCollection.ToList());
+        }
+
+        private void RecentListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var recentItem = e.ClickedItem as AppArticleModel;
+            foreach (var menuItem in SideMenuCollection)
+            {
+                menuItem.IsSelect = false;
+            }
+            AddRecentArticle(recentItem);
+            MainFrame.Navigate(typeof(Pages.ReadPage), recentItem.Date);
         }
     }
 }
