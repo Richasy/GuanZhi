@@ -69,6 +69,7 @@ namespace Project_GuanZhi.Pages
                     bool importResult = await ExportModel.ImportModel(model);
                     if (importResult)
                     {
+                        AppTools.WriteLocalSetting(AppSettings.IsFirstRun, "False");
                         var closeDialog = new ConfirmDialog("请重启软件", "配置及历史记录已成功导入，现在请关闭软件，重新启动应用", "关闭", "关闭", "还是关闭");
                         await closeDialog.ShowAsync();
                         App.Current.Exit();
