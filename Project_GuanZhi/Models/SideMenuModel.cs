@@ -54,7 +54,8 @@ namespace Project_GuanZhi.Models
                 new SideMenuModel(0,SideMenuType.Today),
                 new SideMenuModel(1,SideMenuType.Random),
                 new SideMenuModel(2,SideMenuType.Search),
-                new SideMenuModel(3,SideMenuType.Favourite)
+                new SideMenuModel(3,SideMenuType.Favourite),
+                new SideMenuModel(4,SideMenuType.About)
             };
             foreach (var item in result)
             {
@@ -78,6 +79,11 @@ namespace Project_GuanZhi.Models
             SelectChanged(isSelect);
         }
 
+        public void UpdateLayout()
+        {
+            TitleForeground = IsSelect ? AppTools.GetThemeSolidColorBrush("ImportantTextColor") : AppTools.GetThemeSolidColorBrush("SubTextColor");
+        }
+
         private string GetSideMenuItemContentByType(SideMenuType cla)
         {
             string title = "";
@@ -94,6 +100,9 @@ namespace Project_GuanZhi.Models
                     break;
                 case SideMenuType.Favourite:
                     title = "文章收藏";
+                    break;
+                case SideMenuType.About:
+                    title = "关于软件";
                     break;
                 default:
                     break;

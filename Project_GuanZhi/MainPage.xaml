@@ -17,7 +17,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Rectangle Width="35" Height="3" Fill="{ThemeResource PrimaryColor}" VerticalAlignment="Center" Visibility="{x:Bind SignVisibility,Mode=OneWay}"/>
-                <TextBlock VerticalAlignment="Center" Grid.Column="1" FontFamily="{StaticResource NormalFont}" Text="{x:Bind Title,Mode=OneWay}" HorizontalAlignment="Left" Margin="15,0,0,0" Foreground="{x:Bind TitleForeground,Mode=OneWay}" FontWeight="{x:Bind TitleFontWeight,Mode=OneWay}"/>
+                <TextBlock VerticalAlignment="Center" Grid.Column="1" FontFamily="{StaticResource NormalFont}" Text="{x:Bind Title,Mode=OneWay}" HorizontalAlignment="Left" Margin="15,0,0,0"/>
             </Grid>
         </DataTemplate>
         <DataTemplate x:DataType="model:AppArticleModel" x:Key="RecentItemTemplate">
@@ -32,7 +32,6 @@
                       ItemTemplate="{StaticResource SideMenuItemTemplate}"
                       ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
                       ItemsSource="{x:Bind SideMenuCollection}"
-                      SelectionMode="None"
                        Width="200"
                       IsItemClickEnabled="True"
                       ItemClick="SideMenuListView_ItemClick"
@@ -65,15 +64,14 @@
                 <RowDefinition Height="*" x:Name="RecentArticleRow"/>
             </Grid.RowDefinitions>
             <RelativePanel Margin="45,40,0,30" HorizontalAlignment="Left">
-                <Ellipse Width="50" Height="50" Fill="#4E5B6C" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-                <TextBlock Text="观 止" VerticalAlignment="Center" Foreground="White" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
+                <Ellipse Width="50" Height="50" Fill="{ThemeResource PrimaryColor}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+                <TextBlock Text="观 止" VerticalAlignment="Center" Foreground="{ThemeResource PrimaryInsideColor}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
             </RelativePanel>
             <ListView Name="SideMenuListView"
                       Grid.Row="1"
                       ItemTemplate="{StaticResource SideMenuItemTemplate}"
                       ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
                       ItemsSource="{x:Bind SideMenuCollection}"
-                      SelectionMode="None"
                        Width="250"
                       IsItemClickEnabled="True"
                       ItemClick="SideMenuListView_ItemClick"

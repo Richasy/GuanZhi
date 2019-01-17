@@ -10,6 +10,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -32,26 +33,49 @@ namespace Project_GuanZhi.Pages
     public sealed partial class ReadPage : Page,INotifyPropertyChanged
     {
         private FontFamily _readFontFamily;
+        private int _readFontSize;
+        private double _readLineHeight;
+        private double _readParagraphHeight;
         public FontFamily ReadFontFamily
         {
             get { return _readFontFamily; }
             set { _readFontFamily = value; OnPropertyChanged(); }
         }
+        public int ReadFontSize
+        {
+            get { return _readFontSize; }
+            set { _readFontSize = value;OnPropertyChanged();UpdateLayout(); }
+        }
+        public double ReadLineHeight
+        {
+            get { return _readLineHeight; }
+            set { _readLineHeight = value*ReadFontSize; OnPropertyChanged();ReadLayoutUpdate(); }
+        }
+        public double ReadParagraphHeight
+        {
+            get { return _readParagraphHeight; }
+            set { _readParagraphHeight = value * ReadLineHeight; OnPropertyChanged(); ReadLayoutUpdate(); }
+        }
         private bool isFavourite = false;
         private bool isToolBarHide = false;
+        private bool isRead = false;
         private ObservableCollection<SystemFont> SystemFontCollection = new ObservableCollection<SystemFont>();
         private AppArticleModel ThisArticleData = null;
+        private double scrollViewLocation = 0;
         public ReadPage()
         {
             this.InitializeComponent();
             Interaction.GetBehaviors(ReadScrollView).Add(new FadeHeaderBehavior { HeaderElement = HeaderContainer });
-            ReadScrollView.AddHandler(PointerWheelChangedEvent, new PointerEventHandler(ReadScrollView_PointerWheelChanged), true);
             var fontList = SystemFont.GetFonts();
             foreach (var font in fontList)
             {
                 SystemFontCollection.Add(font);
             }
-            
+            bool isDark = AppTools.GetLocalSetting(AppSettings.Theme, "Light") == "Dark";
+            if (isDark)
+                DarkModeSwitch.IsOn = true;
+            else
+                DarkModeSwitch.IsOn = false;
             string saveFontFamily = AppTools.GetLocalSetting(AppSettings.ReadFontFamily, "");
             if (string.IsNullOrEmpty(saveFontFamily))
             {
@@ -61,6 +85,9 @@ namespace Project_GuanZhi.Pages
             {
                 ReadFontFamily = new FontFamily(saveFontFamily);
             }
+            ReadFontSize = Convert.ToInt32(AppTools.GetLocalSetting(AppSettings.ReadFontSize, "16"));
+            ReadLineHeight = Convert.ToDouble(AppTools.GetLocalSetting(AppSettings.ReadLineHeight, "1.5"));
+            ReadParagraphHeight = Convert.ToDouble(AppTools.GetLocalSetting(AppSettings.ReadParagraphHeight, "0.5"));
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
@@ -105,14 +132,15 @@ namespace Project_GuanZhi.Pages
                 var run = new Run();
                 run.Text = splitItem.Replace("<p>", "");
                 paragraph.Inlines.Add(run);
-                paragraph.TextIndent = 34;
-                paragraph.LineHeight = 35;
-                paragraph.Margin = new Thickness(0, 0, 0, 25);
+                paragraph.TextIndent = ReadFontSize*2;
+                paragraph.LineHeight = ReadLineHeight;
+                paragraph.Margin = new Thickness(0, 0, 0, ReadParagraphHeight);
                 ReadTextBlock.Blocks.Add(paragraph);
             }
             ThisArticleData = new AppArticleModel(sourceData);
             isFavourite = MainPage.Current.FavouriteArticleCollection.Any(article => article.Date == sourceData.Date.Curr || article.Title == sourceData.Title);
             LikeButton.Content = isFavourite ? "" : "";
+            isRead = MainPage.Current.ReadArticleCollection.Any(article => article.Date == sourceData.Date.Curr || article.Title == sourceData.Title);
             TitleTextBlock.Text = sourceData.Title;
             AuthorTextBlock.Text = sourceData.Author;
             WordCountRun.Text = sourceData.Wc.ToString();
@@ -132,6 +160,21 @@ namespace Project_GuanZhi.Pages
             }
         }
 
+        private void ReadLayoutUpdate()
+        {
+            var blocks = ReadTextBlock.Blocks;
+            foreach (var item in blocks)
+            {
+                if(item is Paragraph)
+                {
+                    var para = item as Paragraph;
+                    para.LineHeight = ReadLineHeight;
+                    para.TextIndent = ReadFontSize * 2;
+                    para.Margin = new Thickness(0, 0, 0, ReadParagraphHeight);
+                }
+            }
+        }
+
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double windowWidth = Window.Current.Bounds.Width;
@@ -145,26 +188,7 @@ namespace Project_GuanZhi.Pages
                 ArticleContainer.Padding = new Thickness(0);
             }
         }
-
-        private void ReadScrollView_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
-        {
-            if (e.GetCurrentPoint(ReadScrollView).Properties.MouseWheelDelta < 0)
-            {
-                if (!isToolBarHide)
-                {
-                    isToolBarHide = true;
-                    ToolbarHide.Begin();
-                }
-            }
-            else
-            {
-                if (isToolBarHide)
-                {
-                    isToolBarHide = false;
-                    ToolbarShow.Begin();
-                }
-            }
-        }
+        
 
         private void FontButton_Click(object sender, RoutedEventArgs e)
         {
@@ -202,6 +226,101 @@ namespace Project_GuanZhi.Pages
                     isFavourite = true;
                     LikeButton.Content = "";
                 }
+            }
+        }
+
+        private async void DarkModeSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (DarkModeSwitch.IsOn)
+            {
+                MainPage.Current.MainPageTheme = ElementTheme.Dark;
+                MainPage.Current.RequestedTheme = ElementTheme.Dark;
+                AppTools.WriteLocalSetting(AppSettings.Theme, "Dark");
+            }
+            else
+            {
+                MainPage.Current.MainPageTheme = ElementTheme.Light;
+                MainPage.Current.RequestedTheme = ElementTheme.Light;
+                AppTools.WriteLocalSetting(AppSettings.Theme, "Light");
+            }
+            await Task.Delay(10);
+            OptionFlyout.Hide();
+        }
+
+        private void OptionButton_Click(object sender, RoutedEventArgs e)
+        {
+            FlyoutBase.ShowAttachedFlyout(OptionButton);
+        }
+
+        private void AddFontSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReadFontSize = ReadFontSize >= 40 ? 40 : ReadFontSize + 2;
+            AppTools.WriteLocalSetting(AppSettings.ReadFontSize, ReadFontSize.ToString());
+        }
+
+        private void ReduceFontSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            ReadFontSize = ReadFontSize <= 10 ? 10 : ReadFontSize - 2;
+            AppTools.WriteLocalSetting(AppSettings.ReadFontSize, ReadFontSize.ToString());
+        }
+
+        private void AddLineHeightSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            double sourceLineHeight = Convert.ToDouble(AppTools.GetLocalSetting(AppSettings.ReadLineHeight, "1.5"));
+            sourceLineHeight = sourceLineHeight >= 3 ? 3 : sourceLineHeight + 0.1;
+            ReadLineHeight = sourceLineHeight;
+            AppTools.WriteLocalSetting(AppSettings.ReadLineHeight, sourceLineHeight.ToString());
+        }
+
+        private void ReduceLineHeightSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            double sourceLineHeight = Convert.ToDouble(AppTools.GetLocalSetting(AppSettings.ReadLineHeight, "1.5"));
+            sourceLineHeight = sourceLineHeight <= 1 ? 1 : sourceLineHeight - 0.1;
+            ReadLineHeight = sourceLineHeight;
+            AppTools.WriteLocalSetting(AppSettings.ReadLineHeight, sourceLineHeight.ToString());
+        }
+        private void AddParagraphHeightSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            double sourceParagraphHeight = Convert.ToDouble(AppTools.GetLocalSetting(AppSettings.ReadParagraphHeight, "0.5"));
+            sourceParagraphHeight = sourceParagraphHeight >= 2 ? 2 : sourceParagraphHeight + 0.1;
+            ReadParagraphHeight = sourceParagraphHeight;
+            AppTools.WriteLocalSetting(AppSettings.ReadParagraphHeight, sourceParagraphHeight.ToString());
+        }
+
+        private void ReduceParagraphHeightSizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            double sourceParagraphHeight = Convert.ToDouble(AppTools.GetLocalSetting(AppSettings.ReadParagraphHeight, "0.5"));
+            sourceParagraphHeight = sourceParagraphHeight <= 0.1 ? 0.1 : sourceParagraphHeight - 0.1;
+            ReadParagraphHeight = sourceParagraphHeight;
+            AppTools.WriteLocalSetting(AppSettings.ReadParagraphHeight, sourceParagraphHeight.ToString());
+        }
+
+        private void ReadScrollView_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (ReadScrollView.ScrollableHeight - ReadScrollView.VerticalOffset < 5 && !isRead)
+            {
+                isRead = true;
+                MainPage.Current.AddReadArticle(ThisArticleData);
+            }
+            if (ReadScrollView.VerticalOffset != scrollViewLocation)
+            {
+                if (ReadScrollView.VerticalOffset > scrollViewLocation + 5)
+                {
+                    if (!isToolBarHide)
+                    {
+                        isToolBarHide = true;
+                        ToolbarHide.Begin();
+                    }
+                }
+                else if (ReadScrollView.VerticalOffset < scrollViewLocation-5)
+                {
+                    if (isToolBarHide)
+                    {
+                        isToolBarHide = false;
+                        ToolbarShow.Begin();
+                    }
+                }
+                scrollViewLocation = ReadScrollView.VerticalOffset;
             }
         }
     }

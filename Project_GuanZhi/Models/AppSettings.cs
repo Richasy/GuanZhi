@@ -11,6 +11,10 @@ namespace Project_GuanZhi.Models
         Theme,
         IsFirstRun,
         UserName,
-        ReadFontFamily
+        ReadFontFamily,
+        ReadFontSize,
+        ReadLineHeight,
+        ReadParagraphHeight,
+        FirstRunTime,
     }
 }

@@ -6,11 +6,11 @@
     <SolidColorBrush x:Key="PrimaryColor" Color="#E2E1FA"/>
     <SolidColorBrush x:Key="PrimaryColorOver" Color="#B9B8E0"/>
     <SolidColorBrush x:Key="PrimaryInsideColor" Color="#2B2944"/>
-    <SolidColorBrush x:Key="LineColor" Color="#34334E"/>
+    <SolidColorBrush x:Key="LineColor" Color="#444369"/>
 
-    <SolidColorBrush x:Key="ImportantTextColor" Color="Black"/>
-    <SolidColorBrush x:Key="SubTextColor" Color="#666666"/>
-    <SolidColorBrush x:Key="TipTextColor" Color="#A4A7B3"/>
+    <SolidColorBrush x:Key="ImportantTextColor" Color="White"/>
+    <SolidColorBrush x:Key="SubTextColor" Color="#BEC3C8"/>
+    <SolidColorBrush x:Key="TipTextColor" Color="#8C89B2"/>
 
     <SolidColorBrush x:Key="ProgressBackground" Color="#1B1A30"/>
     <SolidColorBrush x:Key="ProgressThumbColor" Color="#504F6C"/>

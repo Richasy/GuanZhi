@@ -28,6 +28,7 @@ namespace Project_GuanZhi.Controls
         public PopToast()
         {
             this.InitializeComponent();
+            RequestedTheme = MainPage.Current.MainPageTheme;
             //将当前的长和框 赋值给控件
             this.Width = Window.Current.Bounds.Width;
             this.Height = Window.Current.Bounds.Height;

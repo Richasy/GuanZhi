@@ -4,8 +4,10 @@ using Project_GuanZhi.Tools;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
 using Windows.Foundation;
@@ -25,12 +27,19 @@ namespace Project_GuanZhi
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : Page,INotifyPropertyChanged
     {
         public ObservableCollection<SideMenuModel> SideMenuCollection = new ObservableCollection<SideMenuModel>();
         public ObservableCollection<AppArticleModel> RecentArticleCollection = new ObservableCollection<AppArticleModel>();
         public List<AppArticleModel> FavouriteArticleCollection = new List<AppArticleModel>();
+        public List<AppArticleModel> ReadArticleCollection = new List<AppArticleModel>();
         public static MainPage Current;
+        private ElementTheme _mainPageTheme;
+        public ElementTheme MainPageTheme
+        {
+            get { return _mainPageTheme; }
+            set { _mainPageTheme = value;OnPropertyChanged(); }
+        }
         public MainPage()
         {
             this.InitializeComponent();
@@ -40,6 +49,7 @@ namespace Project_GuanZhi
 
         private async void MainPageInit()
         {
+            MainPageTheme = App.Current.RequestedTheme==ApplicationTheme.Light?ElementTheme.Light:ElementTheme.Dark;
             var sideMenuItems = SideMenuModel.GetSideMenuList();
             foreach (var menuItem in sideMenuItems)
             {
@@ -47,11 +57,13 @@ namespace Project_GuanZhi
             }
             var sourceLocalRecentArticleList = await IOTools.GetLocalRecentArticleList();
             FavouriteArticleCollection = await IOTools.GetLocalFavouriteArticleList();
+            ReadArticleCollection = await IOTools.GetLocalReadArticleList();
             foreach (var article in sourceLocalRecentArticleList)
             {
                 RecentArticleCollection.Add(article);
             }
             TopTitleTextBlock.Text = "每日一文";
+            SideMenuListView.SelectedIndex = 0;
             MainFrame.Navigate(typeof(Pages.StartPage), SideMenuType.Today);
         }
 
@@ -75,8 +87,12 @@ namespace Project_GuanZhi
                     MainFrame.Navigate(typeof(Pages.StartPage), SideMenuType.Random);
                     break;
                 case SideMenuType.Search:
+                    MainFrame.Navigate(typeof(Pages.StartPage), SideMenuType.Search);
                     break;
                 case SideMenuType.Favourite:
+                    break;
+                case SideMenuType.About:
+                    MainFrame.Navigate(typeof(Pages.AboutPage));
                     break;
                 default:
                     break;
@@ -150,6 +166,15 @@ namespace Project_GuanZhi
             await IOTools.RewriteLocalRecentArticleList(RecentArticleCollection.ToList());
         }
 
+        public async void AddReadArticle(AppArticleModel article)
+        {
+            if(!ReadArticleCollection.Any(p=>p.Date==article.Date || p.Title == article.Title))
+            {
+                ReadArticleCollection.Add(article);
+                await IOTools.RewriteLocalReadArticleList(ReadArticleCollection.ToList());
+            }
+        }
+
         public async Task<bool> AddFavouriteArticle(AppArticleModel article)
         {
             if(FavouriteArticleCollection.Any(p=>p.Date==article.Date || p.Title == article.Title))
@@ -206,6 +231,11 @@ namespace Project_GuanZhi
             }
             AddRecentArticle(recentItem);
             MainFrame.Navigate(typeof(Pages.ReadPage), recentItem.Date);
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName]string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

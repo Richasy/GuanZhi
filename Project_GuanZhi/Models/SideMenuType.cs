@@ -11,6 +11,7 @@ namespace Project_GuanZhi.Models
         Today,
         Random,
         Search,
-        Favourite
+        Favourite,
+        About
     }
 }

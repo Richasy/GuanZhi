@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Project_GuanZhi.Tools
 {
@@ -47,6 +49,43 @@ namespace Project_GuanZhi.Tools
             try
             {
                 await FileIO.WriteTextAsync(recentArticleFile, writeJson);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// 获取本地已读文章列表
+        /// </summary>
+        /// <returns></returns>
+        public async static Task<List<AppArticleModel>> GetLocalReadArticleList()
+        {
+            var dataFolder = await GetLocalDataFolder();
+            var readArticleFile = await dataFolder.CreateFileAsync("ReadArticle.json", CreationCollisionOption.OpenIfExists);
+            string fileJson = await FileIO.ReadTextAsync(readArticleFile);
+            if (string.IsNullOrEmpty(fileJson))
+            {
+                fileJson = "[]";
+            }
+            return JsonConvert.DeserializeObject<List<AppArticleModel>>(fileJson);
+        }
+
+        /// <summary>
+        /// 重写本地已读文章列表
+        /// </summary>
+        /// <param name="readArticleCollection">更改后的文章列表</param>
+        /// <returns></returns>
+        public async static Task<bool> RewriteLocalReadArticleList(ICollection<AppArticleModel> readArticleCollection)
+        {
+            var dataFolder = await GetLocalDataFolder();
+            string writeJson = JsonConvert.SerializeObject(readArticleCollection);
+            var readArticleFile = await dataFolder.CreateFileAsync("ReadArticle.json", CreationCollisionOption.OpenIfExists);
+            try
+            {
+                await FileIO.WriteTextAsync(readArticleFile, writeJson);
                 return true;
             }
             catch (Exception)
@@ -122,6 +161,48 @@ namespace Project_GuanZhi.Tools
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 打开本地文件
+        /// </summary>
+        /// <param name="types">后缀名列表(如.jpg,.mp3等)</param>
+        /// <returns>单个文件</returns>
+        public async static Task<StorageFile> OpenLocalFile(params string[] types)
+        {
+            var picker = new FileOpenPicker();
+            picker.SuggestedStartLocation = PickerLocationId.ComputerFolder;
+            Regex typeReg = new Regex(@"^\.[a-zA-Z0-9]+$");
+            foreach (var type in types)
+            {
+                if (type == "*" || typeReg.IsMatch(type))
+                    picker.FileTypeFilter.Add(type);
+                else
+                    throw new InvalidCastException("文件后缀名不正确");
+            }
+            var file = await picker.PickSingleFileAsync();
+            if (file != null)
+                return file;
+            else
+                return null;
+        }
+
+        /// <summary>
+        /// 存储指定类型的文件
+        /// </summary>
+        /// <param name="type">文件后缀名，带'.'</param>
+        /// <param name="suggestName">建议文件名</param>
+        /// <param name="file">写入文件</param>
+        /// <returns></returns>
+        public static async Task<StorageFile> SaveLocalFile(string type, string suggestName)
+        {
+            var picker = new FileSavePicker();
+            picker.DefaultFileExtension = type;
+            picker.FileTypeChoices.Add(type + " File", new List<string>() { type });
+            picker.SuggestedFileName = suggestName;
+            picker.SuggestedStartLocation = PickerLocationId.PicturesLibrary;
+            StorageFile saveFile = await picker.PickSaveFileAsync();
+            return saveFile;
         }
     }
 }

@@ -1,0 +1,85 @@
+﻿<Page
+    x:Class="Project_GuanZhi.Pages.AboutPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project_GuanZhi.Pages"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    SizeChanged="Page_SizeChanged"
+    Background="{ThemeResource MainBackground}">
+    <Page.Resources>
+        <Style x:Key="TitleTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource NormalFont}"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="FontSize" Value="16"/>
+            <Setter Property="Foreground" Value="{ThemeResource ImportantTextColor}"/>
+            <Setter Property="Margin" Value="0,15"/>
+        </Style>
+        <Style x:Key="TipTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource NormalFont}"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Foreground" Value="{ThemeResource TipTextColor}"/>
+            <Setter Property="Margin" Value="0,5,0,10"/>
+        </Style>
+    </Page.Resources>
+    <Grid Padding="60,50">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel>
+            <TextBlock Foreground="{ThemeResource ImportantTextColor}" MaxWidth="450" TextWrapping="WrapWholeWords" HorizontalAlignment="Left" FontFamily="{StaticResource PrimaryFont}" FontSize="45">
+                <Run Text="你好，"/>
+                <Run x:Name="UserNameRun"/>
+            </TextBlock>
+            <TextBlock Foreground="{ThemeResource SubTextColor}" Margin="0,30,0,0" FontFamily="{StaticResource NormalFont}" FontSize="16" LineHeight="25">
+                <Run Text="观止UWP已经陪伴您 "/>
+                <Run FontWeight="Bold" Foreground="{ThemeResource ImportantTextColor}" x:Name="DurationDayRun"/>
+                <Run Text=" 天了，"/>
+                <LineBreak/>
+                <Run Text="在这些天里，您阅读了 "/>
+                <Run FontWeight="Bold" Foreground="{ThemeResource ImportantTextColor}" x:Name="ReadCountRun"/>
+                <Run Text=" 篇文章，"/>
+                <LineBreak/>
+                <Run Text="加起来足足有 "/>
+                <Run FontWeight="Bold" Foreground="{ThemeResource ImportantTextColor}" x:Name="WordCountRun"/>
+                <Run Text=" 字，"/>
+                <LineBreak/>
+                <Run Text="愿我能继续陪伴您，共同走下去"/>
+            </TextBlock>
+            <RichTextBlock Foreground="{ThemeResource TipTextColor}" FontFamily="{StaticResource NormalFont}" MaxWidth="400" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12" LineHeight="20" Margin="0,30,0,0">
+                <Paragraph Margin="0,0,0,10">
+                    观止UWP是
+                    <Hyperlink NavigateUri="https://www.wandoujia.com/apps/com.meiriyiwen.app" Foreground="{ThemeResource ImportantTextColor}">观止</Hyperlink> 应用的第三方衍生作品，由
+                    <Hyperlink NavigateUri="https://blog.richasy.cn" Foreground="{ThemeResource ImportantTextColor}">云之幻</Hyperlink> 制作
+                </Paragraph>
+                <Paragraph Margin="0,0,0,10">
+                    <Run Text="观止，原名 [每日一文]，是一个专注于短阅读的轻巧应用"/>
+                </Paragraph>
+                <Paragraph Margin="0,0,0,10">
+                    <Run Text="不用登录注册，没有复杂的算法，不猜你喜欢。和你一样我们喜欢简单，相信优美文字的力量，并乐于坚持"/>
+                </Paragraph>
+                <Paragraph>
+                    <Run Text="每天花10分钟阅读一篇文章，一个月可以有大约50000字的阅读量，一年有近60万字的阅读量。始于2011年1月18日，1000+天我们从未间断"/>
+                </Paragraph> 
+            </RichTextBlock>
+        </StackPanel>
+        <StackPanel Name="OptionContainer">
+            <TextBlock Text="基础配置" Style="{StaticResource TitleTextStyle}"/>
+            <TextBlock Text="软件主题" Style="{StaticResource TipTextStyle}"/>
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Style="{StaticResource BasicRadioButtonStyle}" Name="LightRadioButton" GroupName="ThemeGroup" Checked="ThemeRadioButton_Checked" Content="亮色主题"/>
+                <RadioButton Style="{StaticResource BasicRadioButtonStyle}" Margin="20,0,0,0" Name="DarkRadioButton" GroupName="ThemeGroup" Checked="ThemeRadioButton_Checked" Content="暗色主题"/>
+            </StackPanel>
+            <TextBlock Text="导出数据" Style="{StaticResource TipTextStyle}" Margin="0,15,0,5"/>
+            <Button Style="{StaticResource PrimaryButtonStyle}" Name="ExportButton" Click="ExportButton_Click" Content="导出数据包" HorizontalAlignment="Left" Width="100" Height="30" FontSize="12"/>
+            <TextBlock Text="导入数据" Style="{StaticResource TipTextStyle}" Margin="0,15,0,5"/>
+            <Button Style="{StaticResource PrimaryButtonStyle}" Name="ImportButton" Click="ImportButton_Click" Content="导入数据包" HorizontalAlignment="Left" Width="100" Height="30" FontSize="12"/>
+        </StackPanel>
+    </Grid>
+</Page>

@@ -26,7 +26,15 @@
                              Duration="0:0:.5"
                              />
         </Storyboard>
-        <Flyout x:Key="FontFlyout" FlyoutPresenterStyle="{StaticResource FontFlyoutStyle}">
+        <Style x:Key="OptionTipTextStyle" TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="{StaticResource NormalFont}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Foreground" Value="{ThemeResource SubTextColor}"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Margin" Value="15,0,0,0"/>
+        </Style>
+        <Flyout x:Key="FontFlyout" x:Name="FontFlyout" FlyoutPresenterStyle="{StaticResource ReadFlyoutStyle}">
             <ListView Style="{StaticResource BasicListViewStyle}"
                       ItemContainerStyle="{StaticResource BasicListViewItemContainer}"
                       IsItemClickEnabled="True"
@@ -44,12 +52,44 @@
                 </ListView.ItemTemplate>
             </ListView>
         </Flyout>
+        <Flyout x:Key="OptionFlyout" x:Name="OptionFlyout" FlyoutPresenterStyle="{StaticResource ReadFlyoutStyle}">
+            <Grid Width="280" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition MinHeight="50"/>
+                    <RowDefinition MinHeight="50"/>
+                    <RowDefinition MinHeight="50"/>
+                    <RowDefinition MinHeight="50"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Style="{StaticResource OptionTipTextStyle}" Text="夜晚模式"/>
+                <ToggleSwitch Name="DarkModeSwitch" Style="{StaticResource BasicSwitchStyle}" VerticalAlignment="Center" Margin="0,0,15,0" Toggled="DarkModeSwitch_Toggled" Grid.Column="1"/>
+                <TextBlock Style="{StaticResource OptionTipTextStyle}" Text="字体大小" Grid.Row="1"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center">
+                    <Button Style="{StaticResource TransparentButton}" Name="AddFontSizeButton" Click="AddFontSizeButton_Click" Content="&#xE9BA;" Width="30" Height="30" FontSize="22" FontFamily="{StaticResource IconFont}" Foreground="{ThemeResource SubTextColor}"/>
+                    <Button Style="{StaticResource TransparentButton}" Name="ReduceFontSizeButton" Click="ReduceFontSizeButton_Click" Content="&#xE99F;" Width="30" Height="30" FontSize="22" FontFamily="{StaticResource IconFont}" Foreground="{ThemeResource SubTextColor}"/>
+                </StackPanel>
+                <TextBlock Style="{StaticResource OptionTipTextStyle}" Text="行间距" Grid.Row="2"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center">
+                    <Button Style="{StaticResource TransparentButton}" Name="AddLineHeightSizeButton" Click="AddLineHeightSizeButton_Click"  Content="&#xE9BA;" Width="30" Height="30" FontSize="22" FontFamily="{StaticResource IconFont}" Foreground="{ThemeResource SubTextColor}"/>
+                    <Button Style="{StaticResource TransparentButton}" Name="ReduceLineHeightSizeButton" Click="ReduceLineHeightSizeButton_Click"  Content="&#xE99F;" Width="30" Height="30" FontSize="22" FontFamily="{StaticResource IconFont}" Foreground="{ThemeResource SubTextColor}"/>
+                </StackPanel>
+                <TextBlock Style="{StaticResource OptionTipTextStyle}" Text="段后间距" Grid.Row="3"/>
+                <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center">
+                    <Button Style="{StaticResource TransparentButton}" Name="AddParagraphHeightSizeButton" Click="AddParagraphHeightSizeButton_Click"  Content="&#xE9BA;" Width="30" Height="30" FontSize="22" FontFamily="{StaticResource IconFont}" Foreground="{ThemeResource SubTextColor}"/>
+                    <Button Style="{StaticResource TransparentButton}" Name="ReduceParagraphHeightSizeButton" Click="ReduceParagraphHeightSizeButton_Click"  Content="&#xE99F;" Width="30" Height="30" FontSize="22" FontFamily="{StaticResource IconFont}" Foreground="{ThemeResource SubTextColor}"/>
+                </StackPanel>
+            </Grid>
+        </Flyout>
     </Page.Resources>
     <Grid Name="ArticleContainer">
         <ScrollViewer Style="{StaticResource BasicScrollViewer}"
                       Grid.Row="1"
                       HorizontalAlignment="Stretch"
                       Name="ReadScrollView"
+                      ViewChanged="ReadScrollView_ViewChanged"
                       Padding="30,20">
             <interactivity:Interaction.Behaviors>
                 <behaviors:FadeHeaderBehavior />
@@ -71,14 +111,14 @@
                 </StackPanel>
                 <Grid>
                     <RichTextBlock Name="ReadTextBlock"
-                       LineHeight="35"
                        HorizontalAlignment="Center"
                        FontFamily="{x:Bind ReadFontFamily,Mode=OneWay}"
                        Foreground="{ThemeResource SubTextColor}"
-                                   Grid.Column="0"
-                                   Margin="0,30,0,20"
-                                   TextAlignment="Justify"
-                       FontSize="17"/>
+                       Grid.Column="0"
+                       Margin="0,30,0,20"
+                       TextAlignment="Justify"
+                                   LineHeight="{x:Bind ReadLineHeight,Mode=OneWay}"
+                       FontSize="{x:Bind ReadFontSize,Mode=OneWay}"/>
                 </Grid>
 
                 <TextBlock Foreground="{ThemeResource TipTextColor}"
@@ -105,7 +145,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Button FontFamily="{StaticResource IconFont}" Name="FontButton" Click="FontButton_Click" FlyoutBase.AttachedFlyout="{StaticResource FontFlyout}" Content="&#xE9F3;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
-            <Button FontFamily="{StaticResource IconFont}" Name="ColorButton" Grid.Column="1" Content="&#xE9D9;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
+            <Button FontFamily="{StaticResource IconFont}" Name="OptionButton" FlyoutBase.AttachedFlyout="{StaticResource OptionFlyout}" Click="OptionButton_Click" Grid.Column="1" Content="&#xE9D9;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
             <Button FontFamily="{StaticResource IconFont}" Name="LikeButton" Click="LikeButton_Click" Grid.Column="2" Content="&#xE906;" Style="{StaticResource TransparentButton}" FontSize="20" Width="50" Height="50"/>
         </Grid>
         <ProgressRing VerticalAlignment="Center" HorizontalAlignment="Center" Width="40" Height="40" Foreground="{ThemeResource SubTextColor}" IsActive="False" Name="WaittingRing"/>

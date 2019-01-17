@@ -15,10 +15,11 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <RelativePanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Ellipse Width="100" Height="100" Fill="#4E5B6C" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-            <TextBlock Text="观 止" Foreground="White" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="25" FontFamily="{StaticResource NormalFont}"/>
+            <Ellipse Width="100" Height="100" Fill="{ThemeResource PrimaryColor}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
+            <TextBlock Text="观 止" Foreground="{ThemeResource PrimaryInsideColor}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True" FontSize="25" FontFamily="{StaticResource NormalFont}"/>
         </RelativePanel>
         <TextBlock Foreground="{ThemeResource PrimaryColor}" Margin="0,30,0,0" FontSize="40" LineHeight="50" FontFamily="{StaticResource PrimaryFont}" HorizontalAlignment="Center" Grid.Row="1">
             <Run Text="阅读文章"/>
@@ -27,5 +28,6 @@
         </TextBlock>
         <TextBox Style="{StaticResource UnderLineTextBoxStyle}" TextChanged="UserNameTextBox_TextChanged" Margin="0,20,0,0" FontSize="20" PlaceholderForeground="{ThemeResource TipTextColor}" Name="UserNameTextBox" PlaceholderText="我该如何称呼你？" TextAlignment="Center" HorizontalAlignment="Center" MinWidth="300" Grid.Row="2"/>
         <Button Style="{StaticResource PrimaryButtonStyle}" Visibility="Collapsed" Width="150" Height="50" Click="ReadyButton_Click" Name="ReadyButton" Content="准备好了" Grid.Row="3" HorizontalAlignment="Center" Margin="0,50,0,0"/>
+        <HyperlinkButton Foreground="{ThemeResource SubTextColor}" HorizontalAlignment="Center" Name="ImportButton" Click="ImportButton_Click" FontSize="12" FontFamily="{StaticResource NormalFont}" Grid.Row="4" Margin="0,20,0,0" Content="导入配置"/>
     </Grid>
 </Page>

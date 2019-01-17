@@ -204,7 +204,43 @@ namespace Project_GuanZhi.Tools
         /// <returns></returns>
         public static SolidColorBrush GetThemeSolidColorBrush(string key)
         {
-            return (SolidColorBrush)Application.Current.Resources[key];
+            return (SolidColorBrush)App.Current.Resources[key];
+        }
+
+        /// <summary>
+        /// 获取当前Unix时间戳
+        /// </summary>
+        /// <returns></returns>
+        public static int GetTimeUnix(DateTime date)
+        {
+            TimeSpan ts = date - new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            int seconds = Convert.ToInt32(ts.TotalSeconds);
+            return seconds;
+        }
+        /// <summary>
+        /// 从Unix时间戳获取DateTime时间
+        /// </summary>
+        /// <param name="seconds">秒数</param>
+        /// <returns></returns>
+        public static DateTime GetDateTime(int seconds)
+        {
+            var basicTime = new DateTime(1970, 1, 1, 0, 0, 0, 0);
+            basicTime=basicTime.AddSeconds(seconds);
+            return basicTime;
+        }
+
+        /// <summary>
+        /// 从日期获取DateTime时间
+        /// </summary>
+        /// <param name="time">日期</param>
+        /// <returns></returns>
+        public static DateTime GetDateTime(string time)
+        {
+            int year = Convert.ToInt32(time.Substring(0, 4));
+            int month = Convert.ToInt32(time.Substring(4, 2));
+            int day = Convert.ToInt32(time.Substring(6));
+            var date = new DateTime(year, month, day,0,0,0,0);
+            return date;
         }
     }
 }

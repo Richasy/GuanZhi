@@ -1,0 +1,22 @@
+﻿<ContentDialog
+    x:Class="Project_GuanZhi.Controls.ConfirmDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Project_GuanZhi.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    PrimaryButtonText="确认"
+    SecondaryButtonText="取消"
+    BorderBrush="{ThemeResource LineColor}"
+    Background="{ThemeResource FlyoutAcrylicBackground}"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    PrimaryButtonStyle="{StaticResource PrimaryDialogButtonStyle}"
+    SecondaryButtonStyle="{StaticResource DefaultDialogButtonStyle}"
+    CloseButtonStyle="{StaticResource DefaultDialogButtonStyle}"
+    TitleTemplate="{StaticResource DialogTitle}"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+    <Grid>
+        <TextBlock MaxWidth="250" HorizontalAlignment="Left" Name="TipTextBlock" LineHeight="25" Foreground="{ThemeResource SubTextColor}" FontFamily="{StaticResource NormalFont}" TextWrapping="Wrap"/>
+    </Grid>
+</ContentDialog>

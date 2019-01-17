@@ -1,4 +1,5 @@
-﻿using Project_GuanZhi.Tools;
+﻿using Microsoft.Toolkit.Uwp.UI.Helpers;
+using Project_GuanZhi.Tools;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,7 +36,6 @@ namespace Project_GuanZhi
             RequestedTheme = isLight ? ApplicationTheme.Light : ApplicationTheme.Dark;
             this.UnhandledException += UnhandledExceptionHandle;
         }
-
         private void UnhandledExceptionHandle(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             e.Handled = true;
