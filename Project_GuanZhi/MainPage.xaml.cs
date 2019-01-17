@@ -90,6 +90,7 @@ namespace Project_GuanZhi
                     MainFrame.Navigate(typeof(Pages.StartPage), SideMenuType.Search);
                     break;
                 case SideMenuType.Favourite:
+                    MainFrame.Navigate(typeof(Pages.FavouritePage));
                     break;
                 case SideMenuType.About:
                     MainFrame.Navigate(typeof(Pages.AboutPage));

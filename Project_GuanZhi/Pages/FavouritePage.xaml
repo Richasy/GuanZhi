@@ -5,10 +5,35 @@
     xmlns:local="using:Project_GuanZhi.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:Project_GuanZhi.Models"
     mc:Ignorable="d"
     Background="{ThemeResource MainBackground}">
 
+    <Page.Resources>
+        <MenuFlyout x:Key="ArticleMenuFlyout" MenuFlyoutPresenterStyle="{StaticResource MenuFlyoutStyleWithAcrylic}">
+            <MenuFlyoutItem Name="Delete" FontFamily="{StaticResource NormalFont}" Text="移出收藏夹" Click="ArticleMenuFlyout_Handle"/>
+        </MenuFlyout>
+        <DataTemplate x:DataType="models:AppArticleModel" x:Key="FavouriteItemTemplate">
+            <Grid Width="230" Height="270" Background="{ThemeResource MainBackground}" HorizontalAlignment="Center" RightTapped="Grid_RightTapped" Holding="Grid_Holding" Name="{x:Bind Date}" FlyoutBase.AttachedFlyout="{StaticResource ArticleMenuFlyout}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock Text="{x:Bind Title}" TextAlignment="Center" TextWrapping="Wrap" MaxWidth="200" HorizontalAlignment="Center" Margin="0,0,0,20" Foreground="{ThemeResource ImportantTextColor}" FontFamily="{StaticResource PrimaryFont}" FontSize="25" LineHeight="35"/>
+                    <TextBlock Text="{x:Bind Author}" TextAlignment="Center" TextWrapping="NoWrap" MaxWidth="150" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Grid.Row="1" Margin="0,0,0,15" Foreground="{ThemeResource SubTextColor}" FontSize="10" FontFamily="{StaticResource NormalFont}"/>
+                    <TextBlock TextAlignment="Justify" Grid.Row="2" MaxLines="3" TextTrimming="CharacterEllipsis" MaxWidth="200" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{x:Bind Digest}" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource PrimaryColor}" FontSize="14" LineHeight="23"/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+    
     <Grid>
-
+        <GridView Style="{StaticResource BasicGridViewStyle}" Name="FavouriteGridView"
+                  IsItemClickEnabled="True"
+                  Padding="50"
+                  ItemTemplate="{StaticResource FavouriteItemTemplate}"
+                  ItemsSource="{x:Bind FavouriteArticleCollection}"
+                  SelectionMode="None"
+                  ItemClick="FavouriteGridView_ItemClick"
+                  VerticalAlignment="Center" HorizontalAlignment="Center"
+                  />
+        <TextBlock Text="收藏夹空空如也~" Name="EmptyTipTextBlock" FontFamily="{StaticResource PrimaryFont}" Foreground="{ThemeResource TipTextColor}" FontSize="40" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </Page>

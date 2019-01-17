@@ -141,6 +141,11 @@ namespace Project_GuanZhi.Pages
             isFavourite = MainPage.Current.FavouriteArticleCollection.Any(article => article.Date == sourceData.Date.Curr || article.Title == sourceData.Title);
             LikeButton.Content = isFavourite ? "" : "";
             isRead = MainPage.Current.ReadArticleCollection.Any(article => article.Date == sourceData.Date.Curr || article.Title == sourceData.Title);
+            if(!isRead && ThisArticleData.WordCount <= 1000)
+            {
+                isRead = true;
+                MainPage.Current.AddReadArticle(ThisArticleData);
+            }
             TitleTextBlock.Text = sourceData.Title;
             AuthorTextBlock.Text = sourceData.Author;
             WordCountRun.Text = sourceData.Wc.ToString();

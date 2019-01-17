@@ -55,7 +55,7 @@
             <RichTextBlock Foreground="{ThemeResource TipTextColor}" FontFamily="{StaticResource NormalFont}" MaxWidth="400" TextWrapping="Wrap" HorizontalAlignment="Left" FontSize="12" LineHeight="20" Margin="0,30,0,0">
                 <Paragraph Margin="0,0,0,10">
                     观止UWP是
-                    <Hyperlink NavigateUri="https://www.wandoujia.com/apps/com.meiriyiwen.app" Foreground="{ThemeResource ImportantTextColor}">观止</Hyperlink> 应用的第三方衍生作品，由
+                    <Hyperlink NavigateUri="https://meiriyiwen.com/" Foreground="{ThemeResource ImportantTextColor}">观止</Hyperlink> 应用的第三方衍生作品，由
                     <Hyperlink NavigateUri="https://blog.richasy.cn" Foreground="{ThemeResource ImportantTextColor}">云之幻</Hyperlink> 制作
                 </Paragraph>
                 <Paragraph Margin="0,0,0,10">
