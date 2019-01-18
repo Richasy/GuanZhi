@@ -105,7 +105,7 @@ namespace Project_GuanZhi
             double width = e.NewSize.Width;
             double recentRowHeight = RecentArticleRow.ActualHeight;
             RecentListView.Height = recentRowHeight - 80;
-            if (width > 768)
+            if (width > 1000)
             {
                 SideGrid.Visibility = Visibility.Visible;
                 TopGrid.Visibility = Visibility.Collapsed;

@@ -93,7 +93,7 @@ namespace Project_GuanZhi.Pages
         private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             double windowWidth = Window.Current.Bounds.Width;
-            if (windowWidth < 769)
+            if (windowWidth < 1000)
             {
                 Grid.SetColumn(OptionContainer, 0);
                 Grid.SetRow(OptionContainer, 1);

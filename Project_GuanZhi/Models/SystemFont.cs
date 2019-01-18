@@ -36,12 +36,19 @@ namespace Project_GuanZhi.Models
 
                 if (!familyNames.FindLocaleName(CultureInfo.CurrentCulture.Name, out index))
                 {
+                    
                     if (!familyNames.FindLocaleName("en-us", out index))
                     {
                         index = 0;
                     }
                 }
-
+                using (var font = fontFamily.GetFont(index))
+                {
+                    if (font.IsSymbolFont)
+                    {
+                        continue;
+                    }
+                }
                 string name = familyNames.GetString(index);
                 fontList.Add(new SystemFont()
                 {

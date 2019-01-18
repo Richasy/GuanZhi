@@ -184,7 +184,7 @@ namespace Project_GuanZhi.Pages
         {
             double windowWidth = Window.Current.Bounds.Width;
             double pageWidth = e.NewSize.Width;
-            if (windowWidth > 768)
+            if (windowWidth > 1000)
             {
                 ArticleContainer.Padding = new Thickness(0, 30, 0, 0);
             }
