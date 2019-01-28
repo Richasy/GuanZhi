@@ -99,13 +99,13 @@
                     <TextBlock Name="TitleTextBlock"
                        Foreground="{ThemeResource ImportantTextColor}"
                        FontFamily="{StaticResource PrimaryFont}"
-                       FontSize="30"
+                       FontSize="40"
                        HorizontalAlignment="Left"
                        />
                     <TextBlock Name="AuthorTextBlock"
                        Foreground="{ThemeResource TipTextColor}"
                        FontFamily="{StaticResource NormalFont}"
-                       FontSize="10"
+                       FontSize="14"
                        HorizontalAlignment="Left"
                        Margin="0,10,0,0"/>
                 </StackPanel>

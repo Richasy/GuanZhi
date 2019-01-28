@@ -22,8 +22,8 @@
         </DataTemplate>
         <DataTemplate x:DataType="model:AppArticleModel" x:Key="RecentItemTemplate">
             <StackPanel Padding="50,10,0,10">
-                <TextBlock Text="{x:Bind Title}" Foreground="{ThemeResource SubTextColor}" MaxWidth="150" TextTrimming="WordEllipsis" FontFamily="{StaticResource NormalFont}" FontSize="14"/>
-                <TextBlock Text="{x:Bind Author}" Foreground="{ThemeResource TipTextColor}" FontFamily="{StaticResource NormalFont}" FontSize="9"/>
+                <TextBlock Text="{x:Bind Title}" Foreground="{ThemeResource SubTextColor}" MaxWidth="150" TextTrimming="WordEllipsis" FontFamily="{StaticResource NormalFont}" FontSize="15"/>
+                <TextBlock Text="{x:Bind Author}" Foreground="{ThemeResource TipTextColor}" FontFamily="{StaticResource NormalFont}" FontSize="11"/>
             </StackPanel>
         </DataTemplate>
         <Flyout x:Key="TopMenuFlyout" x:Name="TopMenuFlyout" FlyoutPresenterStyle="{StaticResource FlyoutStyleWithAcrylic}">

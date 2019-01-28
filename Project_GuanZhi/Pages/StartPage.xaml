@@ -18,7 +18,7 @@
             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Left" Name="MainContent">
                 <StackPanel Name="ArticleContainer" HorizontalAlignment="Left">
                     <TextBlock Name="TitleTextBlock" FontSize="40" HorizontalAlignment="Left" FontFamily="{StaticResource PrimaryFont}" Foreground="{ThemeResource ImportantTextColor}" MaxWidth="330" LineHeight="50" TextWrapping="Wrap"/>
-                    <TextBlock Name="AuthorTextBlock" FontSize="12" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource TipTextColor}" Margin="0,20"/>
+                    <TextBlock Name="AuthorTextBlock" FontSize="14" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource TipTextColor}" Margin="0,20"/>
                     <TextBlock Name="DigestTextBlock" FontSize="14" HorizontalAlignment="Left" FontFamily="{StaticResource NormalFont}" Foreground="{ThemeResource SubTextColor}" LineHeight="25" MaxWidth="330" TextWrapping="Wrap" MaxLines="3" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
 

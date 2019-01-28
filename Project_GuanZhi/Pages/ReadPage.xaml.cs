@@ -130,7 +130,11 @@ namespace Project_GuanZhi.Pages
             {
                 var paragraph = new Paragraph();
                 var run = new Run();
-                run.Text = splitItem.Replace("<p>", "");
+                string content = splitItem.Replace("<p>", "");
+                if (string.IsNullOrEmpty(content.Trim())){
+                    continue;
+                }
+                run.Text = content;
                 paragraph.Inlines.Add(run);
                 paragraph.TextIndent = ReadFontSize*2;
                 paragraph.LineHeight = ReadLineHeight;

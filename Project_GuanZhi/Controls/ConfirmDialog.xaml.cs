@@ -24,13 +24,27 @@ namespace Project_GuanZhi.Controls
         public ConfirmDialog()
         {
             this.InitializeComponent();
-            RequestedTheme = MainPage.Current.MainPageTheme;
+            if (MainPage.Current != null)
+            {
+                RequestedTheme = MainPage.Current.MainPageTheme;
+            }
+            else
+            {
+                RequestedTheme = ElementTheme.Light;
+            }
         }
 
         public ConfirmDialog(string title,string tip,string primaryButtonText="确认",string secondaryButtonText="",string closeButtonText="取消")
         {
             this.InitializeComponent();
-            RequestedTheme = MainPage.Current.MainPageTheme;
+            if (MainPage.Current != null)
+            {
+                RequestedTheme = MainPage.Current.MainPageTheme;
+            }
+            else
+            {
+                RequestedTheme = ElementTheme.Light;
+            }
             Title = title;
             TipTextBlock.Text = tip;
             PrimaryButtonText = primaryButtonText;
