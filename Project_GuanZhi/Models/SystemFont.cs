@@ -42,13 +42,21 @@ namespace Project_GuanZhi.Models
                         index = 0;
                     }
                 }
-                using (var font = fontFamily.GetFont(index))
+                try
                 {
-                    if (font.IsSymbolFont)
+                    using (var font = fontFamily.GetFont(index))
                     {
-                        continue;
+                        if (font.IsSymbolFont)
+                        {
+                            continue;
+                        }
                     }
                 }
+                catch (Exception)
+                {
+                    continue;
+                }
+                
                 string name = familyNames.GetString(index);
                 fontList.Add(new SystemFont()
                 {
