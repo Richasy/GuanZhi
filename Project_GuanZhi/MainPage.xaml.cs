@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
@@ -50,6 +51,9 @@ namespace Project_GuanZhi
         private async void MainPageInit()
         {
             MainPageTheme = App.Current.RequestedTheme==ApplicationTheme.Light?ElementTheme.Light:ElementTheme.Dark;
+            var image = new BitmapImage();
+            image.UriSource = new Uri($"ms-appx:///Assets/{MainPageTheme.ToString()}.png");
+            AppIcon.Source = image;
             var sideMenuItems = SideMenuModel.GetSideMenuList();
             foreach (var menuItem in sideMenuItems)
             {

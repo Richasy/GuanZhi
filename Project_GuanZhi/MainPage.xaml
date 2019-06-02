@@ -63,10 +63,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*" x:Name="RecentArticleRow"/>
             </Grid.RowDefinitions>
-            <RelativePanel Margin="45,40,0,30" HorizontalAlignment="Left">
-                <Ellipse Width="50" Height="50" Fill="{ThemeResource PrimaryColor}" RelativePanel.AlignVerticalCenterWithPanel="True" RelativePanel.AlignHorizontalCenterWithPanel="True"/>
-                <TextBlock Text="观 止" VerticalAlignment="Center" Foreground="{ThemeResource PrimaryInsideColor}" RelativePanel.AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True"/>
-            </RelativePanel>
+            <Image Name="AppIcon" HorizontalAlignment="Left" Width="50" Margin="45,40,0,30"/>
             <ListView Name="SideMenuListView"
                       Grid.Row="1"
                       ItemTemplate="{StaticResource SideMenuItemTemplate}"
